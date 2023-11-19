@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import ProductCatalog from './components/ProductCatalog';
+import ShoppingCart from './components/ShoppingCart';
+import products from './data/Product';
 
-function App() {
+const App = () => {
+  const [cart, setCart] = useState([]);
+
+  const addToCart = (product) => {
+    setCart([...cart, product]);
+  };
+
+  const removeFromCart = (productId) => {
+    const updatedCart = [...cart];
+    const indexToRemove = updatedCart.findIndex((item) => item.id === productId);
+
+    if (indexToRemove !== -1) {
+      updatedCart.splice(indexToRemove, 1);
+      setCart(updatedCart);
+    }
+  };
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ width: '75%', margin: 'auto', backgroundColor: '#FAF6F0', padding: '2rem' }} className="App">
+      <h1>Welcome to My E-commerce Store</h1>
+      <ProductCatalog products={products} addToCart={addToCart} />
+      <ShoppingCart cart={cart} removeFromCart={removeFromCart} />
     </div>
   );
-}
+};
 
 export default App;
